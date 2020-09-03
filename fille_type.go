@@ -12,6 +12,8 @@ const (
 	FileDirTypePrivateDisk DirType = "private"
 	// 普通文件
 	FileDirTypeFileResource DirType = "resource"
+	// 系统文件文件
+	SystemFileDirTypeFileResource DirType = "system-resource"
 	// 版本发布文件
 	FileDirTypeOrgRelease DirType = "org-release"
 )
