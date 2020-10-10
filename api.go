@@ -1,17 +1,34 @@
 package yunke
 
 import (
-	"fmt"
-	"net/http"
+	`fmt`
+	`net/http`
 
-	"github.com/go-resty/resty/v2"
-	log "github.com/sirupsen/logrus"
-	"github.com/storezhang/gox"
+	`github.com/go-resty/resty/v2`
+	`github.com/storezhang/gox`
+)
+
+const (
+	// 版本号
+	// ApiVersionDefault 无版本，默认
+	ApiVersionDefault ApiVersion = "default"
+	// ApiVersionV1 版本1
+	ApiVersionV1 ApiVersion = "v1"
+
+	// UrlApiPrefix Api前缀
+	UrlApiPrefix string = "api"
+)
+
+const (
+	// ApiClientPackageNotifyUrl 客户端打包通知地址
+	ApiClientPackageNotifyUrl string = "clients/{id}/packages/notifies"
 )
 
 type (
 	// Admin 云视课堂
 	Admin struct {
+		// 产品编号
+		Id int64
 		// 地址
 		Url string
 		// 通信秘钥
@@ -21,43 +38,80 @@ type (
 		// 授权码，在Header里面
 		AuthScheme string
 	}
+
+	// ApiVersion 版本
+	ApiVersion string
 )
 
-// GetLastVersion 取得某个客户端类型的最新版本
-func (a *Admin) GetLastVersion(clientType ClientType) (baseClient BaseClient, err error) {
+func (a *Admin) request(
+	url string,
+	method gox.HttpMethod,
+	params interface{}, pathParams map[string]string,
+	rsp interface{},
+) (err error) {
 	var (
-		rsp       *resty.Response
-		authToken string
+		adminRsp           *resty.Response
+		authToken          string
+		expectedStatusCode int
 	)
 
 	if authToken, err = token(a.SigningMethod, a.Secret); nil != err {
 		return
 	}
 
-	if rsp, err = NewResty().SetHeader("Authorization", fmt.Sprintf("%s %s", a.AuthScheme, authToken)).
-		SetResult(&baseClient).
-		Get(fmt.Sprintf("%s/api/clients/finals/%d", a.Url, clientType)); nil != err {
-		log.WithFields(log.Fields{
-			"url":        a.Url,
-			"secret":     a.Secret,
-			"clientType": clientType,
-			"body":       RestyStringBody(rsp),
-			"error":      err,
-		}).Error("取得最新版本出错")
+	req := NewResty().SetResult(rsp).SetHeader(gox.HeaderAuthorization, fmt.Sprintf("%s %s", a.AuthScheme, authToken))
+	// 注入路径参数
+	if 0 != len(pathParams) {
+		req = req.SetPathParams(pathParams)
+	}
+
+	// 修正请求地址为全路径
+	url = fmt.Sprintf("%s/api/%s", a.Url, url)
+
+	switch method {
+	case gox.HttpMethodGet:
+		expectedStatusCode = http.StatusOK
+
+		if nil != params {
+			req = req.SetQueryParams(params.(map[string]string))
+		}
+		adminRsp, err = req.Get(url)
+	case gox.HttpMethodPost:
+		expectedStatusCode = http.StatusCreated
+
+		if nil != params {
+			req = req.SetBody(params)
+		}
+		adminRsp, err = req.Post(url)
+	case gox.HttpMethodPut:
+		expectedStatusCode = http.StatusOK
+
+		if nil != params {
+			req = req.SetBody(params)
+		}
+		adminRsp, err = req.Put(url)
+	case gox.HttpMethodDelete:
+		expectedStatusCode = http.StatusNoContent
+
+		if nil != params {
+			req = req.SetBody(params)
+		}
+		adminRsp, err = req.Delete(url)
+	}
+	if nil != err {
+		return
+	}
+
+	if nil == adminRsp {
+		err = gox.NewCodeError(gox.ErrorCode(adminRsp.StatusCode()), "无返回数据", RestyStringBody(adminRsp))
 
 		return
 	}
 
-	if http.StatusOK != rsp.StatusCode() {
-		err = gox.NewCodeError(gox.ErrorCode(rsp.StatusCode()), "取得最新版本出错", rsp.String())
-
-		return
+	// 检查状态码
+	if expectedStatusCode != adminRsp.StatusCode() {
+		err = gox.NewCodeError(gox.ErrorCode(adminRsp.StatusCode()), "请求服务器不符合预期", RestyStringBody(adminRsp))
 	}
-	log.WithFields(log.Fields{
-		"url":        a.Url,
-		"secret":     a.Secret,
-		"clientType": clientType,
-	}).Debug("取得最新版本成功")
 
 	return
 }
