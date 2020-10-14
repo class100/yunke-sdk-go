@@ -2,6 +2,7 @@ package yunke
 
 import (
 	"encoding/json"
+	`fmt`
 	"strconv"
 
 	"github.com/storezhang/gox"
@@ -31,12 +32,16 @@ const (
 	UpdateFileTypeInstaller UpdateFileType = 2
 
 	// 状态
+	// ClientStatusPublished 已发布
+	ClientStatusPublished ClientStatus = 10
 	// ClientStatusNew 新创建
-	ClientStatusNew ClientStatus = 1
+	ClientStatusNew ClientStatus = 11
 	// ClientStatusPackaging 打包中
-	ClientStatusPackaging ClientStatus = 2
+	ClientStatusPackaging ClientStatus = 21
 	// ClientStatusPackaged 打包已完成
-	ClientStatusPackaged ClientStatus = 3
+	ClientStatusPackaged ClientStatus = 22
+	// ClientStatusPackageError 打包错误
+	ClientStatusPackageError ClientStatus = 23
 )
 
 type (
@@ -94,8 +99,29 @@ func ParseClientType(ct string) (clientType ClientType, err error) {
 	return
 }
 
+func (c BaseClient) Filename(name string) (filename string) {
+	var ext string
+
+	switch c.ClientType {
+	case ClientTypeWindows:
+		ext = ".exe"
+	case ClientTypeMac:
+		ext = ".dmg"
+	case ClientTypeAndroid:
+		ext = ".apk"
+	default:
+		ext = ".exe"
+	}
+	if UpdateFileTypePatch == c.FileType {
+		ext = ".zip"
+	}
+	filename = fmt.Sprintf("%s-%s%s", name, c.Version, ext)
+
+	return
+}
+
 func (c BaseClient) String() string {
-	jsonBytes, _ := json.Marshal(c)
+	jsonBytes, _ := json.MarshalIndent(c, "", "    ")
 
 	return string(jsonBytes)
 }
