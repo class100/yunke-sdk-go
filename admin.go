@@ -4,24 +4,9 @@ import (
 	`fmt`
 	`net/http`
 
+	`github.com/dgrijalva/jwt-go`
 	`github.com/go-resty/resty/v2`
 	`github.com/storezhang/gox`
-)
-
-const (
-	// 版本号
-	// ApiVersionDefault 无版本，默认
-	ApiVersionDefault ApiVersion = "default"
-	// ApiVersionV1 版本1
-	ApiVersionV1 ApiVersion = "v1"
-
-	// UrlApiPrefix Api前缀
-	UrlApiPrefix string = "api"
-)
-
-const (
-	// ApiClientPackageNotifyUrl 客户端打包通知地址
-	ApiClientPackageNotifyUrl string = "clients/{id}/packages/notifies"
 )
 
 type (
@@ -38,9 +23,6 @@ type (
 		// 授权码，在Header里面
 		AuthScheme string
 	}
-
-	// ApiVersion 版本
-	ApiVersion string
 )
 
 func (a *Admin) request(
@@ -55,7 +37,7 @@ func (a *Admin) request(
 		expectedStatusCode int
 	)
 
-	if authToken, err = token(a.SigningMethod, a.Secret); nil != err {
+	if authToken, err = token(jwt.GetSigningMethod(a.SigningMethod), a.Secret); nil != err {
 		return
 	}
 

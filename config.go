@@ -34,11 +34,11 @@ type (
 
 	// Config 配置
 	Config struct {
-		// 配置名称
+		// Name 配置名称
 		Name ConfigName `xorm:"pk varchar(16) notnull default('')" json:"name"`
-		// 配置
+		// Config 配置
 		Config map[string]interface{} `xorm:"varchar(1024) notnull default('')" json:"config"`
-		// 更新时间
+		// UpdatedAt 更新时间
 		UpdatedAt gox.Timestamp `xorm:"updated default('2020-06-11 09:55:52')" json:"updatedAt"`
 	}
 )

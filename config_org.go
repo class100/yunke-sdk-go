@@ -20,7 +20,7 @@ func (oc *OrgConfig) Exist() bool {
 	return "" != oc.Url && "" != oc.Name
 }
 
-func (oc *OrgConfig) GetOrgDomain() (domain string, err error) {
+func (oc *OrgConfig) Domain() (domain string, err error) {
 	var url *libUrl.URL
 
 	if url, err = libUrl.Parse(oc.Url); nil != err {
@@ -34,7 +34,7 @@ func (oc *OrgConfig) GetOrgDomain() (domain string, err error) {
 
 func (oc *OrgConfig) PackageName() (name string, err error) {
 	var domain string
-	if domain, err = oc.GetOrgDomain(); nil != err {
+	if domain, err = oc.Domain(); nil != err {
 		return
 	}
 
@@ -58,15 +58,23 @@ func (oc *OrgConfig) PackageName() (name string, err error) {
 	return
 }
 
-func (oc *OrgConfig) GetOrgApiUrl(
+func (oc *OrgConfig) ConfigUpdateUrl(name ConfigName) (path string, err error) {
+	return oc.ApiUrl(OrgApiConfigUpdateUrl, map[string]string{"name": string(name)}, ApiVersionDefault)
+}
+
+func (oc *OrgConfig) PackageNotifyUrl(client BaseClient) (path string, err error) {
+	return oc.ApiUrl(OrgApiClientPackageNotifyUrl, map[string]string{"id": client.IdString()}, ApiVersionDefault)
+}
+
+func (oc *OrgConfig) ApiUrl(
 	api string,
 	pathParams map[string]string,
 	version ApiVersion,
 ) (path string, err error) {
-	return oc.getOrgUrl(api, pathParams, UrlApiPrefix, version)
+	return oc.getUrl(api, pathParams, UrlApiPrefix, version)
 }
 
-func (oc *OrgConfig) getOrgUrl(
+func (oc *OrgConfig) getUrl(
 	path string,
 	pathParams map[string]string,
 	prefix string,

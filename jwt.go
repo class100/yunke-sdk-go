@@ -14,8 +14,8 @@ type (
 	}
 )
 
-func token(method string, secret string) (token string, err error) {
-	claims := jwt.NewWithClaims(jwt.GetSigningMethod(method), UserClaims{
+func token(method jwt.SigningMethod, secret string) (token string, err error) {
+	claims := jwt.NewWithClaims(method, UserClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
 		},
