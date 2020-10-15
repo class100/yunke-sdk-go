@@ -13,6 +13,8 @@ const (
 	DefaultLocalOrgPackageName string = "com.localhost"
 	// DefaultOrgUrl 默认连接地址
 	DefaultOrgUrl string = "https://yunke.class100.com"
+	// DefaultOrgDomain 默认域名
+	DefaultOrgDomain string = "yunke.class100.com"
 	// DefaultOrgName 默认机构名称
 	DefaultOrgName string = "云视课堂"
 	// DefaultLocalOrgName 本地调试机构名称
