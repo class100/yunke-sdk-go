@@ -10,7 +10,7 @@ import (
 )
 
 type (
-	// Admin 云视课堂
+	// Admin 云视课堂管理
 	Admin struct {
 		// 产品编号
 		Id int64
