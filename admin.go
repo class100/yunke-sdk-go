@@ -9,6 +9,11 @@ import (
 	`github.com/storezhang/gox`
 )
 
+const (
+	// DefaultAdminDomain 云视课堂管理端默认域名
+	DefaultAdminDomain = "yunke-admin.class100.com"
+)
+
 type (
 	// Admin 云视课堂管理
 	Admin struct {
@@ -37,7 +42,7 @@ func (a *Admin) request(
 		expectedStatusCode int
 	)
 
-	if authToken, err = token(jwt.GetSigningMethod(a.SigningMethod), a.Secret); nil != err {
+	if authToken, err = token(DefaultAdminDomain, jwt.GetSigningMethod(a.SigningMethod), a.Secret); nil != err {
 		return
 	}
 

@@ -22,6 +22,7 @@ const (
 )
 
 type (
+	// OrgStatus 机构状态
 	OrgStatus int8
 
 	// Org 机构
@@ -83,9 +84,24 @@ func (o *Org) request(
 		adminRsp           *resty.Response
 		authToken          string
 		expectedStatusCode int
+
+		url    string
+		domain string
 	)
 
-	if authToken, err = token(jwt.SigningMethodHS256, o.Secret); nil != err {
+	// 修正请求地址为全路径
+	orgConfig := OrgConfig{
+		Url:  o.Url,
+		Name: o.Name,
+	}
+	if url, err = orgConfig.getUrl(path, pathParams, prefix, version); nil != err {
+		return
+	}
+	if domain, err = orgConfig.Domain(); nil != err {
+		return
+	}
+
+	if authToken, err = token(domain, jwt.SigningMethodHS256, o.Secret); nil != err {
 		return
 	}
 
@@ -93,16 +109,6 @@ func (o *Org) request(
 	// 注入路径参数
 	if 0 != len(pathParams) {
 		req = req.SetPathParams(pathParams)
-	}
-
-	// 修正请求地址为全路径
-	orgConfig := OrgConfig{
-		Url:  o.Url,
-		Name: o.Name,
-	}
-	var url string
-	if url, err = orgConfig.getUrl(path, pathParams, prefix, version); nil != err {
-		return
 	}
 
 	switch method {
