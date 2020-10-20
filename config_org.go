@@ -16,6 +16,10 @@ type (
 	}
 )
 
+func (oc OrgConfig) Model() (map[string]interface{}, error) {
+	return toModel(oc)
+}
+
 func (oc *OrgConfig) Exist() bool {
 	return "" != oc.Url && "" != oc.Name
 }

@@ -4,20 +4,48 @@ import (
 	`encoding/json`
 	`fmt`
 
-	`github.com/class100/nuwa-sdk-go`
+	`github.com/storezhang/gox`
+	`github.com/storezhang/replace`
 )
 
 type (
 	// PCConfig PC端配置
 	PCConfig struct {
-		// 标题
-		Title string `json:"title" validate:"required,max=10"`
-		// 图标
-		Logo string `json:"logo" validate:"omitempty,len=20"`
-		// 启动图标
-		StartupLogo string `json:"startupLogo" validate:"omitempty,len=20"`
+		// Title 标题
+		Title string `json:"title,omitempty" validate:"required,max=10"`
+		// Logo 图标
+		Logo string `json:"logo,omitempty" validate:"omitempty,len=20"`
+		// StartupLogo 启动图标
+		StartupLogo string `json:"startupLogo,omitempty" validate:"omitempty,len=20"`
+		// Package 打包
+		Package PCPackage `json:"package,omitempty"`
+	}
+
+	// PCPackage PC端打包状态
+	PCPackage struct {
+		gox.JSONInitial
+
+		// Windows Windows是否打包
+		Windows bool `json:"windows"`
+		// Mac Mac是否打包
+		Mac bool `json:"mac"`
 	}
 )
+
+func (pc PCConfig) JsonInit(table string, field string) (sql string, err error) {
+	paths := make([]string, 0, 1)
+
+	if gox.JSONInitialStatusUnInitial == pc.Package.Status {
+		paths = append(paths, "package")
+	}
+	sql, err = gox.MySQLJsonInit(table, field, paths...)
+
+	return
+}
+
+func (pc PCConfig) Model() (map[string]interface{}, error) {
+	return toModel(pc)
+}
 
 func (pc PCConfig) String() string {
 	jsonBytes, _ := json.MarshalIndent(pc, "", "    ")
@@ -53,22 +81,22 @@ func (pc *PCConfig) isDiff(other PCConfig) (diff bool) {
 	return
 }
 
-func (pc *PCConfig) Replaces(url string, name map[string]string) (frs []nuwa.Replace, err error) {
+func (pc *PCConfig) Replaces(url string, name map[string]string) (replaces []replace.Replace, err error) {
 	// 替换服务器通信地址
-	elements := []nuwa.JSONReplaceElement{{
+	elements := []replace.JSONReplaceElement{{
 		Path:  "domain",
 		Value: url,
 	}}
 	for lang, value := range name {
 		// 替换语言
-		elements = append(elements, nuwa.JSONReplaceElement{
+		elements = append(elements, replace.JSONReplaceElement{
 			Path:  fmt.Sprintf("name.%s", lang),
 			Value: value,
 		})
 	}
 
-	frs = []nuwa.Replace{
-		nuwa.NewJSONReplace(DefaultPCConfigFileName, elements...),
+	replaces = []replace.Replace{
+		replace.NewJSONReplace(DefaultPCConfigFileName, elements...),
 	}
 
 	return

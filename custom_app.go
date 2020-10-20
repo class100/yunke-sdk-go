@@ -3,22 +3,37 @@ package yunke
 import (
 	`encoding/json`
 
-	`github.com/class100/nuwa-sdk-go`
+	`github.com/storezhang/replace`
+	`github.com/storezhang/transfer`
 )
 
 type (
 	// AppConfig App配置
 	AppConfig struct {
-		// 应用名称
-		Name string `json:"name" validate:"required,max=10"`
-		// 应用图标
-		Logo string `json:"logo" validate:"omitempty,len=20"`
-		// 启动图标
-		StartupLogo string `json:"startupLogo" validate:"omitempty,len=20"`
-		// 闪屏
-		SplashLogo string `json:"splashLogo" validate:"omitempty,len=20"`
+		// Name 应用名称
+		Name string `json:"name,omitempty" validate:"required,max=10"`
+		// Logo 应用图标
+		Logo string `json:"logo,omitempty" validate:"omitempty,len=20"`
+		// StartupLogo 启动图标
+		StartupLogo string `json:"startupLogo,omitempty" validate:"omitempty,len=20"`
+		// SplashLogo 闪屏
+		SplashLogo string `json:"splashLogo,omitempty" validate:"omitempty,len=20"`
+		// Package 打包
+		Package AppPackage `json:"package,omitempty"`
+	}
+
+	// AppPackage 移动端打包
+	AppPackage struct {
+		// Android 安卓是否打包
+		Android bool `json:"android"`
+		// IOS IOS是否打包
+		IOS bool `json:"ios"`
 	}
 )
+
+func (ac AppConfig) Model() (map[string]interface{}, error) {
+	return toModel(ac)
+}
 
 func (ac AppConfig) String() string {
 	jsonBytes, _ := json.MarshalIndent(ac, "", "    ")
@@ -48,14 +63,14 @@ func (ac *AppConfig) isDiff(newConfig AppConfig) (diff bool) {
 	return
 }
 
-func (ac *AppConfig) Replaces(url string, packageName string, splash nuwa.File) (frs []nuwa.Replace, err error) {
-	frs = []nuwa.Replace{
+func (ac *AppConfig) Replaces(url string, packageName string, splash transfer.File) (replaces []replace.Replace, err error) {
+	replaces = []replace.Replace{
 		// 替换闪屏图片
-		nuwa.NewFileReplace(DefaultAppSplashFileName, splash),
+		replace.NewFileReplace(DefaultAppSplashFileName, splash),
 		// 替换包名
-		nuwa.NewStringContentReplace(DefaultAndroidManifestFileName, "com.class100.yunke.dev", packageName),
+		replace.NewStringContentReplace(DefaultAndroidManifestFileName, "com.class100.yunke.dev", packageName),
 		// 替换通信地址
-		nuwa.NewJSONReplace(DefaultAppConfigFileName, nuwa.JSONReplaceElement{
+		replace.NewJSONReplace(DefaultAppConfigFileName, replace.JSONReplaceElement{
 			Path:  "server",
 			Value: url,
 		}),

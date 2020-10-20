@@ -47,17 +47,27 @@ const (
 	DefaultAndroidSignSigAlg    string = "SHA1withRSA"
 )
 
+const (
+	// PackageStatusPackaged 已打包
+	PackageStatusPackaged PackageStatus = 1
+	// PackageStatusNotPackage 未打包
+	PackageStatusNotPackage PackageStatus = 2
+)
+
 type (
 	// Product 产品
 	Product string
 
+	// PackageStatus 打包状态
+	PackageStatus uint8
+
 	// Custom 定制化
 	Custom struct {
-		// 产品
+		// Product 产品
 		Product Product `xorm:"pk varchar(16) notnull default('')" json:"product"`
-		// 配置
-		Config map[string]interface{} `xorm:"json notnull default(null)" json:"config"`
-		// 更新时间
+		// Config 配置
+		Config map[string]interface{} `xorm:"json default(null)" json:"config"`
+		// UpdatedAt 更新时间
 		UpdatedAt gox.Timestamp `xorm:"updated default('2020-06-11 09:55:52')" json:"updatedAt"`
 	}
 )

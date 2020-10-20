@@ -7,27 +7,31 @@ import (
 type (
 	// WebConfig 产品页面配置
 	WebConfig struct {
-		// 标题
-		Title string `json:"title" validate:"required,max=10"`
-		// 描述
-		Dsp string `json:"dsp" validate:"omitempty,max=50"`
-		// 图标
-		Logo string `json:"logo" validate:"omitempty,len=20"`
-		// 标签页图标
-		Favicon string `json:"favicon" validate:"omitempty,len=20"`
+		// Title 标题
+		Title string `json:"title,omitempty" validate:"required,max=10"`
+		// Dsp 描述
+		Dsp string `json:"dsp,omitempty" validate:"omitempty,max=50"`
+		// Logo 图标
+		Logo string `json:"logo,omitempty" validate:"omitempty,len=20"`
+		// Favicon 标签页图标
+		Favicon string `json:"favicon,omitempty" validate:"omitempty,len=20"`
 
-		// 版权信息
-		Copyright string `json:"copyright" validate:"omitempty,max=50"`
-		// 备案信息
-		BeiAnHao string `json:"beiAnHao" validate:"omitempty,max=50"`
-		// 备案链接
-		BeiAnLink string `json:"beiAnLink" validate:"omitempty,url"`
-		// 联系方式
-		Contact string `json:"contact" validate:"omitempty,max=100"`
-		// 宣传图
-		DownloadPublicityMap string `json:"downloadPublicityMap" validate:"omitempty,len=20"`
+		// Copyright 版权信息
+		Copyright string `json:"copyright,omitempty" validate:"omitempty,max=50"`
+		// BeiAnHao 备案信息
+		BeiAnHao string `json:"beiAnHao,omitempty" validate:"omitempty,max=50"`
+		// BeiAnLink 备案链接
+		BeiAnLink string `json:"beiAnLink,omitempty" validate:"omitempty,url"`
+		// Contact 联系方式
+		Contact string `json:"contact,omitempty" validate:"omitempty,max=100"`
+		// DownloadPublicityMap 宣传图
+		DownloadPublicityMap string `json:"downloadPublicityMap,omitempty" validate:"omitempty,len=20"`
 	}
 )
+
+func (wc WebConfig) Model() (map[string]interface{}, error) {
+	return toModel(wc)
+}
 
 func (wc WebConfig) String() string {
 	jsonBytes, _ := json.MarshalIndent(wc, "", "    ")

@@ -19,3 +19,7 @@ type (
 		Backend string `json:"backend" validate:"required,min=8,max=30"`
 	}
 )
+
+func (pc PasswordConfig) Model() (map[string]interface{}, error) {
+	return toModel(pc)
+}

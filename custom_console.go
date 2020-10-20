@@ -7,20 +7,24 @@ import (
 type (
 	// ConsoleConfig 管理后台配置
 	ConsoleConfig struct {
-		// 标题
-		Title string `json:"title" validate:"required,max=10"`
-		// 描述
-		Dsp string `json:"dsp" validate:"omitempty,max=50"`
-		// 后台导航栏Logo
-		NavBarLogo string `json:"navBarLogo" validate:"omitempty,len=20"`
-		// 后台登录页Logo
-		LoginLogo string `json:"loginLogo" validate:"omitempty,len=20"`
-		// 后台登录页背景图
-		BackgroundImage string `json:"backgroundImage" validate:"omitempty,len=20"`
-		// 标签页图标
-		Favicon string `json:"favicon" validate:"omitempty,len=20"`
+		// Title 标题
+		Title string `json:"title,omitempty" validate:"required,max=10"`
+		// Dsp 描述
+		Dsp string `json:"dsp,omitempty" validate:"omitempty,max=50"`
+		// NavBarLogo 后台导航栏Logo
+		NavBarLogo string `json:"navBarLogo,omitempty" validate:"omitempty,len=20"`
+		// LoginLogo 后台登录页Logo
+		LoginLogo string `json:"loginLogo,omitempty" validate:"omitempty,len=20"`
+		// BackgroundImage 后台登录页背景图
+		BackgroundImage string `json:"backgroundImage,omitempty" validate:"omitempty,len=20"`
+		// Favicon 标签页图标
+		Favicon string `json:"favicon,omitempty" validate:"omitempty,len=20"`
 	}
 )
+
+func (cc ConsoleConfig) Model() (map[string]interface{}, error) {
+	return toModel(cc)
+}
 
 func (cc ConsoleConfig) String() string {
 	jsonBytes, _ := json.MarshalIndent(cc, "", "    ")
