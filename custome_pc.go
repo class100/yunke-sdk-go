@@ -23,7 +23,7 @@ type (
 
 	// PCPackage PC端打包状态
 	PCPackage struct {
-		gox.JSONInitial
+		gox.JSONInitialized
 
 		// Windows Windows是否打包
 		Windows bool `json:"windows"`
@@ -32,13 +32,13 @@ type (
 	}
 )
 
-func (pc PCConfig) JsonInit(table string, field string) (sql string, err error) {
+func (pc PCConfig) InitSQL(table string, field string) (sql string, err error) {
 	paths := make([]string, 0, 1)
 
-	if gox.JSONInitialStatusUnInitial == pc.Package.Status {
+	if !pc.Package.IsInitialized() {
 		paths = append(paths, "package")
 	}
-	sql, err = gox.MySQLJsonInit(table, field, paths...)
+	sql, err = gox.MySQLJsonInit(table, field, pc.Package.InitializeField(), pc.Package.IsInitialized(), paths...)
 
 	return
 }

@@ -3,6 +3,7 @@ package yunke
 import (
 	`encoding/json`
 
+	`github.com/storezhang/gox`
 	`github.com/storezhang/replace`
 	`github.com/storezhang/transfer`
 )
@@ -24,12 +25,25 @@ type (
 
 	// AppPackage 移动端打包
 	AppPackage struct {
+		gox.JSONInitialized
+
 		// Android 安卓是否打包
 		Android bool `json:"android"`
 		// IOS IOS是否打包
 		IOS bool `json:"ios"`
 	}
 )
+
+func (ac AppConfig) InitSQL(table string, field string) (sql string, err error) {
+	paths := make([]string, 0, 1)
+
+	if !ac.Package.IsInitialized() {
+		paths = append(paths, "package")
+	}
+	sql, err = gox.MySQLJsonInit(table, field, ac.Package.InitializeField(), ac.Package.IsInitialized(), paths...)
+
+	return
+}
 
 func (ac AppConfig) Model() (map[string]interface{}, error) {
 	return toModel(ac)
