@@ -4,6 +4,8 @@ import (
 	`fmt`
 	libUrl `net/url`
 	`strings`
+
+	`github.com/storezhang/gox`
 )
 
 type (
@@ -16,8 +18,12 @@ type (
 	}
 )
 
-func (oc OrgConfig) Model() (map[string]interface{}, error) {
-	return toModel(oc)
+func (oc *OrgConfig) StructToMap() (model map[string]interface{}, err error) {
+	return gox.StructToMap(oc)
+}
+
+func (oc *OrgConfig) MapToStruct(model map[string]interface{}) (err error) {
+	return gox.MapToStruct(model, oc)
 }
 
 func (oc *OrgConfig) Exist() bool {

@@ -3,6 +3,7 @@ package yunke
 import (
 	`encoding/json`
 
+	`github.com/storezhang/gox`
 	`github.com/storezhang/replace`
 	`github.com/storezhang/transfer`
 )
@@ -18,12 +19,14 @@ type (
 		StartupLogo string `json:"startupLogo,omitempty" validate:"omitempty,len=20"`
 		// SplashLogo 闪屏
 		SplashLogo string `json:"splashLogo,omitempty" validate:"omitempty,len=20"`
-		// Package 打包
-		Package AppPackage `json:"package,omitempty"`
+		// Packaged 是否已打包
+		Packaged AppPackaged `json:"package,omitempty"`
 	}
 
-	// AppPackage 移动端打包
-	AppPackage struct {
+	// AppPackaged 移动端打包
+	AppPackaged struct {
+		gox.JSONInitialized
+
 		// Android 安卓是否打包
 		Android bool `json:"android"`
 		// IOS IOS是否打包
@@ -31,8 +34,27 @@ type (
 	}
 )
 
-func (ac AppConfig) Model() (map[string]interface{}, error) {
-	return toModel(ac)
+func (ac AppConfig) IsInitialized() bool {
+	return ac.Packaged.Initialized
+}
+
+func (ac AppConfig) InitSQL(table string, field string) (sql string, err error) {
+	paths := make([]string, 0, 1)
+
+	if !ac.Packaged.Initialized {
+		paths = append(paths, "packaged")
+	}
+	sql, err = gox.MySQLJsonInit(table, field, ac.Packaged.InitializeField(), ac.Packaged.IsInitialized(), paths...)
+
+	return
+}
+
+func (ac *AppConfig) StructToMap() (model map[string]interface{}, err error) {
+	return gox.StructToMap(ac)
+}
+
+func (ac *AppConfig) MapToStruct(model map[string]interface{}) (err error) {
+	return gox.MapToStruct(model, ac)
 }
 
 func (ac AppConfig) String() string {

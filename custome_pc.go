@@ -17,13 +17,13 @@ type (
 		Logo string `json:"logo,omitempty" validate:"omitempty,len=20"`
 		// StartupLogo 启动图标
 		StartupLogo string `json:"startupLogo,omitempty" validate:"omitempty,len=20"`
-		// Package 打包
-		Package PCPackage `json:"package,omitempty"`
+		// Packaged 是否已打包
+		Packaged PCPackaged `json:"package,omitempty"`
 	}
 
-	// PCPackage PC端打包状态
-	PCPackage struct {
-		gox.JSONInitial
+	// PCPackaged PC端打包状态
+	PCPackaged struct {
+		gox.JSONInitialized
 
 		// Windows Windows是否打包
 		Windows bool `json:"windows"`
@@ -32,19 +32,27 @@ type (
 	}
 )
 
-func (pc PCConfig) JsonInit(table string, field string) (sql string, err error) {
+func (pc PCConfig) IsInitialized() bool {
+	return pc.Packaged.Initialized
+}
+
+func (pc PCConfig) InitSQL(table string, field string) (sql string, err error) {
 	paths := make([]string, 0, 1)
 
-	if gox.JSONInitialStatusUnInitial == pc.Package.Status {
-		paths = append(paths, "package")
+	if !pc.Packaged.Initialized {
+		paths = append(paths, "packaged")
 	}
-	sql, err = gox.MySQLJsonInit(table, field, paths...)
+	sql, err = gox.MySQLJsonInit(table, field, pc.Packaged.InitializeField(), true, paths...)
 
 	return
 }
 
-func (pc PCConfig) Model() (map[string]interface{}, error) {
-	return toModel(pc)
+func (pc *PCConfig) StructToMap() (model map[string]interface{}, err error) {
+	return gox.StructToMap(pc)
+}
+
+func (pc *PCConfig) MapToStruct(model map[string]interface{}) (err error) {
+	return gox.MapToStruct(model, pc)
 }
 
 func (pc PCConfig) String() string {
