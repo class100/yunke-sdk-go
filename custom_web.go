@@ -2,6 +2,8 @@ package yunke
 
 import (
 	`encoding/json`
+
+	`github.com/storezhang/gox`
 )
 
 type (
@@ -29,8 +31,12 @@ type (
 	}
 )
 
-func (wc WebConfig) Model() (map[string]interface{}, error) {
-	return toModel(wc)
+func (wc *WebConfig) StructToMap() (model map[string]interface{}, err error) {
+	return gox.StructToMap(wc)
+}
+
+func (wc *WebConfig) MapToStruct(model map[string]interface{}) (err error) {
+	return gox.MapToStruct(model, wc)
 }
 
 func (wc WebConfig) String() string {
