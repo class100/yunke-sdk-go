@@ -21,6 +21,8 @@ github.com/konsorten/go-windows-terminal-sequences v1.0.3/go.mod h1:T0+1ngSBFLxv
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
+github.com/mitchellh/mapstructure v1.3.3 h1:SzB1nHZ2Xi+17FP0zVQBHIZqvwRN9408fJO8h+eeNA8=
+github.com/mitchellh/mapstructure v1.3.3/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 h1:ZqeYNhU3OHLH3mGKHDcjJRFFRrJa6eAM5H+CtDdOsPc=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742 h1:Esafd1046DLDQ0W1YjYsBW+p8U2u7vzgW2SQVmlNazg=
@@ -35,6 +37,8 @@ github.com/sirupsen/logrus v1.6.0 h1:UBcNElsrwanuuMsnGSlYmtmgbb23qDR5dG+6X6Oo89I
 github.com/sirupsen/logrus v1.6.0/go.mod h1:7uNnSEd1DgxDLC74fIahvMZmmYsHGZGEOFrfsX/uA88=
 github.com/storezhang/gox v1.2.5 h1:/Br0BTkyUK5ZUf3u3jaKQ74Y4MosCJL/ePwdSEZ7FS4=
 github.com/storezhang/gox v1.2.5/go.mod h1:W8HkitUlhS1+xdYLQiXrOehXuQLaBFASyxGeiLqyQvY=
+github.com/storezhang/gox v1.2.6 h1:YClktWoEFyXub4VJGcp4sNDX6u5CiUiQwfOYFNaLnBU=
+github.com/storezhang/gox v1.2.6/go.mod h1:WB/euI1sxXEXCqT6h6zyCQwJyA+6X5gjpc6RHlIFzt8=
 github.com/storezhang/replace v1.0.1 h1:Zuv9q0escWaLcyZm/bcBjmVmyQ6sGKTeOoJkljHHYaA=
 github.com/storezhang/replace v1.0.1/go.mod h1:r8Uwo0AOH7OXg1LSb595exPzvVkDJ+CFvt3h+MrzKNg=
 github.com/storezhang/transfer v1.0.0 h1:o6MjpItSKsRPY25whygd0BdLtsgLRPmTgfaa4u3Trfc=
