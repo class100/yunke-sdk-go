@@ -42,6 +42,8 @@ const (
 	ClientStatusPackaged ClientStatus = 22
 	// ClientStatusPackageError 打包错误
 	ClientStatusPackageError ClientStatus = 23
+	// ClientStatusRepackaging 发布后再重新打包
+	ClientStatusRepackaging ClientStatus = 24
 )
 
 type (
