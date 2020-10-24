@@ -18,7 +18,7 @@ type (
 		// StartupLogo 启动图标
 		StartupLogo string `json:"startupLogo,omitempty" validate:"omitempty,len=20"`
 		// Packaged 是否已打包
-		Packaged PCPackaged `json:"package,omitempty"`
+		Packaged PCPackaged `json:"packaged,omitempty"`
 	}
 
 	// PCPackaged PC端打包状态

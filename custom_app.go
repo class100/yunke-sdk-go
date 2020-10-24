@@ -20,7 +20,7 @@ type (
 		// SplashLogo 闪屏
 		SplashLogo string `json:"splashLogo,omitempty" validate:"omitempty,len=20"`
 		// Packaged 是否已打包
-		Packaged AppPackaged `json:"package,omitempty"`
+		Packaged AppPackaged `json:"packaged,omitempty"`
 	}
 
 	// AppPackaged 移动端打包
