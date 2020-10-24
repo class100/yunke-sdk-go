@@ -81,9 +81,9 @@ type (
 	BaseClientPaging struct {
 		gox.Paging
 
-		// 客户端
-		Client ClientType `json:"client" validate:"omitempty,oneof=1 2 3"`
-		// 排序字段
+		// ClientType 客户端
+		ClientType ClientType `json:"client" validate:"omitempty,oneof=1 2 3"`
+		// SortField 排序字段
 		SortField string `default:"updated_at" json:"sortField" validate:"oneof=id created_at updated_at version update_info"`
 	}
 )
