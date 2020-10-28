@@ -89,7 +89,7 @@ func (pc *PCConfig) isDiff(other PCConfig) (diff bool) {
 	return
 }
 
-func (pc *PCConfig) Replaces(url string, name map[string]string) (replaces []replace.Replace, err error) {
+func (pc *PCConfig) Replaces(url string, version string, name map[string]string) (replaces []replace.Replace, err error) {
 	// 替换服务器通信地址
 	elements := []replace.JSONReplaceElement{{
 		Path:  "domain",
@@ -104,7 +104,11 @@ func (pc *PCConfig) Replaces(url string, name map[string]string) (replaces []rep
 	}
 
 	replaces = []replace.Replace{
-		replace.NewJSONReplace(DefaultPCConfigFileName, elements...),
+		replace.NewJSONReplace(DefaultPCConfigFilename, elements...),
+		replace.NewJSONReplace(DefaultPCPackageConfigFilename, replace.JSONReplaceElement{
+			Path:  "version",
+			Value: version,
+		}),
 	}
 
 	return

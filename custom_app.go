@@ -88,11 +88,11 @@ func (ac *AppConfig) isDiff(newConfig AppConfig) (diff bool) {
 func (ac *AppConfig) Replaces(url string, packageName string, splash transfer.File) (replaces []replace.Replace, err error) {
 	replaces = []replace.Replace{
 		// 替换闪屏图片
-		replace.NewFileReplace(DefaultAppSplashFileName, splash),
+		replace.NewFileReplace(DefaultAppSplashFilename, splash),
 		// 替换包名
-		replace.NewStringContentReplace(DefaultAndroidManifestFileName, "com.class100.yunke.dev", packageName),
+		replace.NewStringContentReplace(DefaultAndroidManifestFilename, "com.class100.yunke.dev", packageName),
 		// 替换通信地址
-		replace.NewJSONReplace(DefaultAppConfigFileName, replace.JSONReplaceElement{
+		replace.NewJSONReplace(DefaultAppConfigFilename, replace.JSONReplaceElement{
 			Path:  "server",
 			Value: url,
 		}),
