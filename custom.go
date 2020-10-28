@@ -19,30 +19,32 @@ const (
 
 const (
 	// 默认值
-	// PC端默认启动图标
+	// DefaultPCStartupLogo PC端默认启动图标
 	DefaultPCStartupLogo string = "pc-startup-logo.ico"
-	// PC端默认配置文件名
-	DefaultPCConfigFileName string = "resources/lib/conf/conf.json"
-	// APP默认图标
+	// DefaultPCConfigFilename PC端默认配置文件名
+	DefaultPCConfigFilename string = "resources/lib/conf/conf.json"
+	// DefaultPCPackageConfigFilename PC端包配置文件名
+	DefaultPCPackageConfigFilename string = "resources/app/package.json"
+	// DefaultAppStartupLogo APP默认图标
 	DefaultAppStartupLogo string = "app-startup-logo.png"
-	// APP默认闪屏
+	// DefaultAppSplashLogo APP默认闪屏
 	DefaultAppSplashLogo string = "app-splash-logo.png"
-	// APP默认配置文件名
-	DefaultAppConfigFileName string = "assets/flutter_assets/assets/config.json"
-	// APP默认闪屏文件名
-	DefaultAppSplashFileName string = "res/mipmap-xxhdpi-v4/launch_image.png"
-	// Android默认Manifest文件名
-	DefaultAndroidManifestFileName string = "AndroidManifest.xml"
-	// 默认程序名称
+	// DefaultAppConfigFilename APP默认配置文件名
+	DefaultAppConfigFilename string = "assets/flutter_assets/assets/config.json"
+	// DefaultAppSplashFilename APP默认闪屏文件名
+	DefaultAppSplashFilename string = "res/mipmap-xxhdpi-v4/launch_image.png"
+	// DefaultAndroidManifestFilename Android默认Manifest文件名
+	DefaultAndroidManifestFilename string = "AndroidManifest.xml"
+	// DefaultAppName 默认程序名称
 	DefaultAppName string = "云视课堂"
 
-	// 默认的安卓签名秘钥
+	// DefaultAndroidSignFile 默认的安卓签名秘钥
 	DefaultAndroidSignFile string = "yunke.keystore"
-	// 默认转码
+	// DefaultAndroidSignStorePass 默认转码
 	DefaultAndroidSignStorePass string = "2020919"
-	// 默认短语
+	// DefaultAndroidSignAlias 默认短语
 	DefaultAndroidSignAlias string = "yunke"
-	// 默认加密算法
+	// DefaultAndroidSignDigestAlg 默认加密算法
 	DefaultAndroidSignDigestAlg string = "SHA1"
 	DefaultAndroidSignSigAlg    string = "SHA1withRSA"
 )
