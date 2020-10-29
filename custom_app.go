@@ -88,7 +88,6 @@ func (ac *AppConfig) isDiff(newConfig AppConfig) (diff bool) {
 func (ac *AppConfig) Replaces(
 	url string,
 	packageName string,
-	version string,
 	splash transfer.File,
 ) (replaces []replace.Replace, err error) {
 	replaces = []replace.Replace{
@@ -96,13 +95,6 @@ func (ac *AppConfig) Replaces(
 		replace.NewFileReplace(DefaultAppSplashFilename, splash),
 		// 替换包名
 		replace.NewStringContentReplace(DefaultAndroidManifestFilename, "com.class100.yunke.dev", packageName),
-		// 替换版本号
-		replace.NewXMLReplace(DefaultAndroidManifestFilename, replace.XMLReplaceElement{
-			XPath: "/manifest",
-			Type:  replace.XMLReplaceTypeAttr,
-			Key:   "android:versionName",
-			Value: version,
-		}),
 		// 替换通信地址
 		replace.NewJSONReplace(DefaultAppConfigFilename, replace.JSONReplaceElement{
 			Path:  "server",
