@@ -104,7 +104,9 @@ func (pc *PCConfig) Replaces(url string, version string, name map[string]string)
 	}
 
 	replaces = []replace.Replace{
+		// 替换配置文件
 		replace.NewJSONReplace(DefaultPCConfigFilename, elements...),
+		// 替换版本号
 		replace.NewJSONReplace(DefaultPCPackageConfigFilename, replace.JSONReplaceElement{
 			Path:  "version",
 			Value: version,

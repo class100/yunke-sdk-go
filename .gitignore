@@ -13,10 +13,8 @@ app
 *.db
 
 # Config files
-/application.yml
 .idea/
 .vscode/
-application.local.yaml
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out

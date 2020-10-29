@@ -6,6 +6,6 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/storezhang/gox v1.2.6
-	github.com/storezhang/replace v1.0.3
+	github.com/storezhang/replace v1.0.4
 	github.com/storezhang/transfer v1.0.1
 )
