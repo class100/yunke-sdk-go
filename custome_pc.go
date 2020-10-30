@@ -42,7 +42,12 @@ func (pc PCConfig) InitSQL(table string, field string) (sql string, err error) {
 	if !pc.Packaged.Initialized {
 		paths = append(paths, "packaged")
 	}
-	sql, err = gox.MySQLJsonInit(table, field, pc.Packaged.InitializeField(), true, paths...)
+	sql, err = gox.MySQLJsonInit(
+		table, field,
+		"product", ProductPC,
+		pc.Packaged.InitializeField(), true,
+		paths...,
+	)
 
 	return
 }

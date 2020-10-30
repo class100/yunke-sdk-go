@@ -44,7 +44,12 @@ func (ac AppConfig) InitSQL(table string, field string) (sql string, err error) 
 	if !ac.Packaged.Initialized {
 		paths = append(paths, "packaged")
 	}
-	sql, err = gox.MySQLJsonInit(table, field, ac.Packaged.InitializeField(), ac.Packaged.IsInitialized(), paths...)
+	sql, err = gox.MySQLJsonInit(
+		table, field,
+		"product", ProductApp,
+		ac.Packaged.InitializeField(), true,
+		paths...,
+	)
 
 	return
 }

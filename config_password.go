@@ -26,21 +26,6 @@ type (
 	}
 )
 
-func (pc PasswordConfig) IsInitialized() bool {
-	return pc.Default.Initialized
-}
-
-func (pc PasswordConfig) InitSQL(table string, field string) (sql string, err error) {
-	paths := make([]string, 0, 1)
-
-	if !pc.Default.Initialized {
-		paths = append(paths, "default")
-	}
-	sql, err = gox.MySQLJsonInit(table, field, pc.Default.InitializeField(), pc.Default.IsInitialized(), paths...)
-
-	return
-}
-
 func (pc *PasswordConfig) StructToMap() (model map[string]interface{}, err error) {
 	return gox.StructToMap(pc)
 }
