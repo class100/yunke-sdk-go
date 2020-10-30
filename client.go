@@ -101,7 +101,7 @@ func ParseClientType(ct string) (clientType ClientType, err error) {
 	return
 }
 
-func (c BaseClient) Filename(name string) (filename string) {
+func (c BaseClient) Filename(name string, version string) (filename string) {
 	var ext string
 
 	switch c.ClientType {
@@ -117,7 +117,7 @@ func (c BaseClient) Filename(name string) (filename string) {
 	if UpdateFileTypePatch == c.FileType {
 		ext = ".zip"
 	}
-	filename = fmt.Sprintf("%s-%s%s", name, c.Version, ext)
+	filename = fmt.Sprintf("%s-%s%s", name, version, ext)
 
 	return
 }
