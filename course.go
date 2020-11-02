@@ -1,6 +1,6 @@
 package yunke
 
-import "github.com/storezhang/gox"
+import `github.com/storezhang/gox`
 
 const (
 	// CourseTeachingTypeMiniClass 1：小班课

@@ -1,6 +1,6 @@
 package yunke
 
-import "github.com/storezhang/gox"
+import `github.com/storezhang/gox`
 
 type (
 	// LectureContent 课程信息
