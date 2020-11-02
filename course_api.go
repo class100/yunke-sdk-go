@@ -7,8 +7,7 @@ import (
 	"net/http"
 )
 
-type course struct {
-}
+type course struct{}
 
 func newCourse() *course {
 	return &course{}

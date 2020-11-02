@@ -7,17 +7,19 @@ type (
 	Lecture struct {
 		gox.BaseStruct `xorm:"extends"`
 
-		// 课程编号
+		// CourseId 课程编号
 		CourseId int64 `xorm:"bigint notnull default(0)" json:"courseId,string"`
-		// 讲次类型：0-章节，1-讲次
+		// Type 讲次类型
+		// 0：章节
+		// 1：讲次
 		Type int8 `default:"0" xorm:"tinyint notnull default(0)" json:"type"`
-		// 讲次的章节编号
+		// ParentId 讲次的章节编号
 		ParentId int64 `xorm:"bigint notnull default(0)" json:"parentId,string"`
-		// 讲次顺序
+		// Sequence 讲次顺序
 		Sequence int8 `default:"0" xorm:"tinyint notnull default(0)" json:"sequence"`
-		// 课程名称
+		// Name 课程名称
 		Name string `xorm:"varchar(32) notnull default('')" json:"name"`
-		// 课程简介
+		// Profile 课程简介
 		Profile string `xorm:"varchar(255) notnull default('')" json:"profile"`
 	}
 
@@ -25,11 +27,11 @@ type (
 	LectureContent struct {
 		gox.BaseStruct `xorm:"extends"`
 
-		// 课程Id
+		// LectureId 课程Id
 		LectureId int64 `xorm:"bigint notnull default(0)" json:"lectureId,string"`
-		// 展示图片文件编号Id
+		// FileId 展示图片文件编号Id
 		FileId string `xorm:"char(20) notnull default(0)" json:"fileId"`
-		// 名称
+		// FileName 名称
 		FileName string `xorm:"varchar(32) notnull default('')" json:"fileName"`
 		// 内容类型：0-讲次视频，1-讲次资料
 		Type int8 `default:"0" xorm:"tinyint notnull default(0)" json:"type"`
@@ -39,17 +41,19 @@ type (
 	AddLectureReq struct {
 		// 课程Id
 		CourseId int64 `json:"courseId,string" validate:"required"`
-		// 讲次类型：0-章节，1-讲次
+		// Type 讲次类型
+		// 0：章节
+		// 1：讲次
 		Type int8 `default:"0" json:"type" validate:"omitempty,oneof=0 1"`
-		// 章节Id
+		// ParentId 章节Id
 		ParentId int64 `json:"parentId,string"`
-		// 顺序
+		// Sequence 顺序
 		Sequence int8 `default:"0" json:"sequence"`
-		// 名称
+		// Name 名称
 		Name string `json:"name" validate:"required"`
-		// 简介
+		// Profile 简介
 		Profile string `json:"profile" validate:"omitempty,max=255"`
-		// 讲次内容
+		// LectureContents 讲次内容
 		LectureContents []*LectureContent `json:"lectureContents" validate:"omitempty"`
 	}
 
@@ -57,19 +61,21 @@ type (
 	UpdateLectureReq struct {
 		gox.BaseStruct
 
-		// 课程Id
+		// CourseId 课程Id
 		CourseId int64 `json:"courseId,string"`
-		// 讲次类型：0-章节，1-讲次
+		// Type 讲次类型
+		// 0：章节
+		// 1：讲次
 		Type int8 `json:"Type"`
-		// 课程Id
+		// ParentId 父级Id
 		ParentId int64 `json:"parentId,string"`
-		// 授课类型
+		// Sequence 顺序
 		Sequence int8 `json:"sequence"`
-		// 名称
+		// Name 名称
 		Name string `json:"name"`
-		// 简介
+		// Profile 简介
 		Profile string `json:"profile" validate:"omitempty,max=255"`
-		// 讲次内容
+		// LectureContents 讲次内容
 		LectureContents []*LectureContent `json:"lectureContents"`
 	}
 
@@ -77,9 +83,9 @@ type (
 	SwitchItem struct {
 		gox.IdStruct
 
-		// 课程Id
+		// ParentId 课程Id
 		ParentId int64 `json:"parentId,string"`
-		// 授课类型
+		// Sequence 顺序
 		Sequence int8 `json:"sequence" validate:"required"`
 	}
 
@@ -92,7 +98,7 @@ type (
 	LectureInfo struct {
 		*Lecture
 
-		// 内容
+		// Contents 内容
 		Contents []*LectureContent `json:"contents"`
 	}
 
