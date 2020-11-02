@@ -7,9 +7,7 @@ var (
 )
 
 func init() {
-
 	CourseApi = newCourse()
 	LectureApi = newLecture()
 	FileApi = newFileHandler()
-
 }
