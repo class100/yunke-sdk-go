@@ -1,11 +1,11 @@
 package yunke
 
 import (
-	"crypto/tls"
-	"encoding/json"
-	"fmt"
+	`crypto/tls`
+	`encoding/json`
+	`fmt`
 
-	"github.com/go-resty/resty/v2"
+	`github.com/go-resty/resty/v2`
 )
 
 type (
@@ -32,11 +32,11 @@ func RestyStringBody(rsp *resty.Response) string {
 }
 
 func getErr(resp *resty.Response) (err error) {
-	var v *response
-	if err = json.Unmarshal(resp.Body(), &v); nil != err {
+	var rsp *response
+	if err = json.Unmarshal(resp.Body(), &rsp); nil != err {
 		return
 	}
-	err = fmt.Errorf(v.Message)
+	err = fmt.Errorf(rsp.Message)
 
 	return
 }

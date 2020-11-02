@@ -29,7 +29,7 @@ type (
 		// 1 立即下载
 		// 2 打开
 		Type int8 `default:"1" json:"type" validate:"required,oneof=1 2"`
-		// Name文件另存名字
+		// Name 文件另存名字
 		Name string `json:"name" validate:"omitempty,filename"`
 	}
 
