@@ -1,11 +1,10 @@
 package yunke
 
 import (
-	`encoding/json`
-	`fmt`
-	`github.com/go-resty/resty/v2`
-	`net/http`
-
+	"encoding/json"
+	"fmt"
+	"github.com/go-resty/resty/v2"
+	"net/http"
 )
 
 type lecture struct{}
@@ -19,7 +18,7 @@ func (hdl *lecture) Add(req *AddLectureReq, host string) (lecture *LectureInfo, 
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/lectures", host)
+	url := fmt.Sprintf("%s/api/open/lectures", host)
 	if resp, err = NewResty().SetBody(req).Post(url); nil != err {
 		return
 	}
@@ -41,7 +40,7 @@ func (hdl *lecture) Delete(id int64, host string) (err error) {
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/lectures/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/lectures/%v", host, id)
 	if resp, err = NewResty().Delete(url); nil != err {
 		return
 	}
@@ -59,7 +58,7 @@ func (hdl *lecture) Update(id int64, req map[string]interface{}, host string) (l
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/lectures/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/lectures/%v", host, id)
 	if resp, err = NewResty().SetBody(req).Put(url); nil != err {
 		return
 	}
@@ -82,7 +81,7 @@ func (hdl *lecture) Get(id int64, host string) (lecture *LectureInfo, err error)
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/lectures/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/lectures/%v", host, id)
 	if resp, err = NewResty().Get(url); nil != err {
 		return
 	}
@@ -104,7 +103,7 @@ func (hdl *lecture) Gets(courseId int64, host string) (chapters []*ChapterInfo, 
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/lectures/courses/%v", host, courseId)
+	url := fmt.Sprintf("%s/api/open/lectures/courses/%v", host, courseId)
 	if resp, err = NewResty().Get(url); nil != err {
 		return
 	}
@@ -126,7 +125,7 @@ func (hdl *lecture) SwitchSequence(req *SwitchSequenceReq, host string) (lecture
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/lectures/switches", host)
+	url := fmt.Sprintf("%s/api/open/lectures/switches", host)
 	if resp, err = NewResty().SetBody(req).Post(url); nil != err {
 		return
 	}

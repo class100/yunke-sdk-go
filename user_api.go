@@ -19,7 +19,7 @@ func (hdl *userHandler) Add(req *AddUserReq, host string) (course *User, err err
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/users", host)
+	url := fmt.Sprintf("%s/api/open/users", host)
 	if resp, err = NewResty().SetBody(req).Post(url); nil != err {
 		return
 	}
@@ -41,7 +41,7 @@ func (hdl *userHandler) Delete(id int64, host string) (err error) {
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/users/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/users/teachers/%v", host, id)
 	if resp, err = NewResty().Delete(url); nil != err {
 		return
 	}
@@ -60,7 +60,7 @@ func (hdl *userHandler) Update(id int64, req map[string]interface{}, host string
 	}
 
 	var resp *resty.Response
-	url := fmt.Sprintf("%s/api/class330/users/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/users/%v", host, id)
 
 	if resp, err = NewResty().SetBody(req).Put(url); nil != err {
 		return

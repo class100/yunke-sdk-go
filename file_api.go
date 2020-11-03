@@ -1,10 +1,10 @@
 package yunke
 
 import (
-	`encoding/json`
-	`fmt`
-	`github.com/go-resty/resty/v2`
-	`net/http`
+	"encoding/json"
+	"fmt"
+	"github.com/go-resty/resty/v2"
+	"net/http"
 )
 
 type fileHandler struct{}
@@ -16,7 +16,7 @@ func newFileHandler() *fileHandler {
 func (hdl *fileHandler) GetUploadInfo(req *UploadFileReq, host string) (rsp *FileUploadRsp, err error) {
 	var (
 		resp *resty.Response
-		url  = fmt.Sprintf("%s/api/class330/files/uploads/infos", host)
+		url  = fmt.Sprintf("%s/api/open/files/uploads/infos", host)
 	)
 
 	body := map[string]string{
@@ -42,7 +42,7 @@ func (hdl *fileHandler) GetUploadInfo(req *UploadFileReq, host string) (rsp *Fil
 func (hdl *fileHandler) GetDownloadInfo(req *GetDownloadReq, host string) (downloadUrl string, err error) {
 	var (
 		resp *resty.Response
-		url  = fmt.Sprintf("%s/api/class330/files/downloads/%v", host, req.FileId)
+		url  = fmt.Sprintf("%s/api/open/files/downloads/%v", host, req.FileId)
 	)
 
 	body := map[string]string{
@@ -65,7 +65,7 @@ func (hdl *fileHandler) GetDownloadInfo(req *GetDownloadReq, host string) (downl
 
 func (hdl *fileHandler) Delete(req *DeleteFileReq, host string) (err error) {
 	var (
-		url  = fmt.Sprintf("%s/api/class330/files/%v", host, req.FileId)
+		url  = fmt.Sprintf("%s/api/open/files/%v", host, req.FileId)
 		resp *resty.Response
 	)
 
