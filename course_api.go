@@ -1,10 +1,10 @@
 package yunke
 
 import (
-	`encoding/json`
-	`fmt`
-	`github.com/go-resty/resty/v2`
-	`net/http`
+	"encoding/json"
+	"fmt"
+	"github.com/go-resty/resty/v2"
+	"net/http"
 )
 
 type course struct{}
@@ -18,7 +18,7 @@ func (hdl *course) Add(req *AddCourseReq, host string) (course *Course, err erro
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/courses", host)
+	url := fmt.Sprintf("%s/api/open/courses", host)
 	if resp, err = NewResty().SetBody(req).Post(url); nil != err {
 		return
 	}
@@ -40,7 +40,7 @@ func (hdl *course) Delete(id int64, host string) (err error) {
 		resp *resty.Response
 	)
 
-	url := fmt.Sprintf("%s/api/class330/courses/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/courses/%v", host, id)
 	if resp, err = NewResty().Delete(url); nil != err {
 		return
 	}
@@ -59,7 +59,7 @@ func (hdl *course) Update(id int64, req map[string]interface{}, host string) (co
 	}
 
 	var resp *resty.Response
-	url := fmt.Sprintf("%s/api/class330/courses/%v", host, id)
+	url := fmt.Sprintf("%s/api/open/courses/%v", host, id)
 
 	if resp, err = NewResty().SetBody(req).Put(url); nil != err {
 		return
